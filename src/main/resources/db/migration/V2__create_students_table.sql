@@ -1,0 +1,7 @@
+CREATE TABLE STUDENT
+(
+    id   bigserial PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    gpa  DOUBLE PRECISION
+);
+
