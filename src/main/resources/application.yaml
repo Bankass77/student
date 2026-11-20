@@ -1,3 +1,31 @@
 spring:
   application:
     name: student
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5434/student
+    username: student
+    password: secret
+  flyway:
+    url: jdbc:postgresql://localhost:5434/student
+    user: student
+    password: secret
+    encoding: UTF-8
+    enabled: true   # Enable Flyway migrations
+    locations: classpath:db/migration  # Location of migrations scripts
+    baseline-on-migrate: false  # Baseline if the database already has a schema
+
+  profiles:
+    active: dev
+
+logging:
+  level:
+    org.springframework.data.r2dbc: DEBUG
+    io.r2dbc.postgresql.QUERY: DEBUG
+    io.r2dbc.postgresql.PARAM: DEBUG
+    org.springframework.boot.sql.init: DEBUG
+    org.pringframework.r2dbc.connection.init: DEBUG
+  # Schema initialization for development
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema.sql

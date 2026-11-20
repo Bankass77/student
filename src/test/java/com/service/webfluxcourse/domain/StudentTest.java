@@ -1,6 +1,6 @@
-package com.service.webflux.domain;
+package com.service.webfluxcourse.domain;
 
-import com.service.webflux.entities.Student;
+import com.service.webfluxcourse.entities.Student;
 import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;

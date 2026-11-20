@@ -1,4 +1,4 @@
-package com.service.webflux.entities;
+package com.service.webfluxcourse.entities;
 
 
 import lombok.Data;

@@ -1,7 +1,7 @@
-package com.service.webflux.controller;
+package com.service.webfluxcourse.controller;
 
-import com.service.webflux.domain.CustomerModel;
-import com.service.webflux.service.CustomerService;
+import com.service.webfluxcourse.domain.CustomerModel;
+import com.service.webfluxcourse.service.CustomerService;
 import lombok.Value;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -10,44 +10,46 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.net.URI;
+import java.util.UUID;
 
 @Value
 @RestController
 @RequestMapping(
-        produces = MediaType.APPLICATION_JSON_VALUE,
-        consumes = MediaType.APPLICATION_JSON_VALUE
+        value = "/api/v1/customers",
+        produces = MediaType.APPLICATION_JSON_VALUE
 )
 public class CustomerRestController {
 
     CustomerService customerService;
 
-    @GetMapping("/customer/{id}")
-    Mono<ResponseEntity<CustomerModel>> getCusomerById(@PathVariable("id") String id) {
+    @GetMapping("/{id}")
+    Mono<ResponseEntity<CustomerModel>> getCusomerById(@PathVariable("id") UUID id) {
         return customerService.findCustomerById(id)
-                .map(ResponseEntity::ok);
+                .map(ResponseEntity::ok)
+                .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()));
     }
 
-    @PostMapping
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     Mono<ResponseEntity<CustomerModel>> saveCustomer(@RequestBody CustomerModel customerModel) {
         return customerService.createCustomer(customerModel)
                 .map(savedCustomer ->
                         ResponseEntity.created(URI.create("/customers/" + savedCustomer.getCustomerId())).body(savedCustomer));
     }
 
-    @PutMapping("/customer/{id}")
-    Mono<ResponseEntity<CustomerModel>> updateCustomer(@PathVariable("id") String id, @RequestBody CustomerModel customerModel) {
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    Mono<ResponseEntity<CustomerModel>> updateCustomer(@PathVariable("id") UUID id, @RequestBody CustomerModel customerModel) {
 
         return customerService.updateCustomer(id, customerModel).map(
                 ResponseEntity::ok);
     }
 
-    @GetMapping("/customers")
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     Flux<CustomerModel> getAllCustomers() {
         return customerService.findAllCustomers();
     }
 
-    @DeleteMapping("/customer/{id}")
-    Mono<Void> deleteCustomer(@PathVariable("id") String id) {
+    @DeleteMapping(value = "/{id}")
+    Mono<Void> deleteCustomer(@PathVariable("id") UUID id) {
         return customerService.removeCustomer(id);
     }
 }

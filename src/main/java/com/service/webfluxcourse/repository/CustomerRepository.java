@@ -1,7 +1,9 @@
-package com.service.webflux.repository;
+package com.service.webfluxcourse.repository;
 
-import com.service.webflux.domain.CustomerModel;
+import com.service.webfluxcourse.domain.CustomerModel;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 
-public interface CustomerRepository extends ReactiveCrudRepository<CustomerModel, String> {
+import java.util.UUID;
+
+public interface CustomerRepository extends ReactiveCrudRepository<CustomerModel, UUID> {
 }

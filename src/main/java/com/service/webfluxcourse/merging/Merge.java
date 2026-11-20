@@ -1,6 +1,6 @@
-package com.service.webflux.merging;
+package com.service.webfluxcourse.merging;
 
-import com.service.webflux.entities.Student;
+import com.service.webfluxcourse.entities.Student;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.util.function.Tuple2;

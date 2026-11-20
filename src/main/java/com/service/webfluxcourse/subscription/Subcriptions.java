@@ -1,4 +1,4 @@
-package com.service.webflux.subscription;
+package com.service.webfluxcourse.subscription;
 
 import reactor.core.publisher.Mono;
 

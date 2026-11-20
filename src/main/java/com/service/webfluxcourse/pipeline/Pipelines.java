@@ -1,6 +1,6 @@
-package com.service.webflux.pipeline;
+package com.service.webfluxcourse.pipeline;
 
-import com.service.webflux.service.StudentService;
+import com.service.webfluxcourse.service.StudentService;
 import reactor.core.publisher.Mono;
 
 public class Pipelines {

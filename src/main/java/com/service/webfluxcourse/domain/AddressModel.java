@@ -1,11 +1,9 @@
-package com.service.webflux.domain;
+package com.service.webfluxcourse.domain;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Value;
-import org.springframework.data.relational.core.mapping.Table;
 
-@Table("addresses")
 @Value
 public class AddressModel {
     String addressLine;

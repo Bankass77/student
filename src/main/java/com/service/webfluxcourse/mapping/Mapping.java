@@ -1,6 +1,6 @@
-package com.service.webflux.mapping;
+package com.service.webfluxcourse.mapping;
 
-import com.service.webflux.entities.Student;
+import com.service.webfluxcourse.entities.Student;
 import reactor.core.publisher.Mono;
 
 import java.net.URI;

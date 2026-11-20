@@ -1,6 +1,6 @@
-package com.service.webflux.creation;
+package com.service.webfluxcourse.creation;
 
-import com.service.webflux.entities.Student;
+import com.service.webfluxcourse.entities.Student;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
