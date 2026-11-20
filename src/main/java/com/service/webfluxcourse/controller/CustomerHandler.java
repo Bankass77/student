@@ -2,6 +2,7 @@ package com.service.webfluxcourse.controller;
 
 import com.service.webfluxcourse.domain.CustomerModel;
 import com.service.webfluxcourse.service.CustomerService;
+import com.service.webfluxcourse.validation.CustomerValidator;
 import lombok.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -10,7 +11,6 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.net.URI;
 import java.util.UUID;
 
 @Value
@@ -19,20 +19,26 @@ public class CustomerHandler {
 
     CustomerService customerService;
 
+    CustomerValidator customerValidator;
+
     Mono<ServerResponse> postCustomer(ServerRequest request) {
 
         Mono<CustomerModel> body = request.bodyToMono(CustomerModel.class);
-        Mono<CustomerModel> result = body.flatMap(customerService::createCustomer);
-        return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).body(result, CustomerModel.class);
+        Mono<CustomerModel> result = body.flatMap(customerValidator::validate).flatMap(customerService::createCustomer);
+        return ServerResponse.ok()
+                .contentType(MediaType.APPLICATION_JSON).body(result, CustomerModel.class)
+                .onErrorResume(err->ServerResponse.badRequest().build());
     }
 
     Mono<ServerResponse> putConsumer(ServerRequest request) {
 
         return request.bodyToMono(CustomerModel.class).
+               flatMap(customerValidator::validate).
                 flatMap(b -> customerService.updateCustomer(b.getCustomerId(), b))
                 .flatMap(customerModel -> ServerResponse.ok()
                         .contentType(MediaType.APPLICATION_JSON)
-                        .bodyValue(customerModel));
+                        .bodyValue(customerModel))
+                .onErrorResume(err->ServerResponse.badRequest().build());
     }
 
     Mono<ServerResponse> deleteConsumer(ServerRequest request) {
