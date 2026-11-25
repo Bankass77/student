@@ -6,8 +6,10 @@ import am.ik.yavi.core.Validator;
 import com.service.webfluxcourse.domain.CustomerModel;
 
 import com.service.webfluxcourse.exception.CustomerValidationException;
+import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
+@Component
 public class CustomerValidator implements BaseValidator<CustomerModel> {
     private final Validator<CustomerModel> validator;
 

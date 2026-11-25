@@ -29,3 +29,8 @@ logging:
     init:
       mode: always
       schema-locations: classpath:schema.sql
+
+jwt:
+  secret: JRBUmlElEifq+MzlYMej72E35U5ydrf6wXujs4lx/xg=
+  access-token-expiration: 3600000 # 1hheure
+  refresh-token-expiration: 604800000 # 7 jours
