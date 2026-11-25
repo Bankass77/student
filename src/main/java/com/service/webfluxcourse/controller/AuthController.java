@@ -1,18 +1,13 @@
 package com.service.webfluxcourse.controller;
 
-import com.service.webfluxcourse.domain.User;
-import com.service.webfluxcourse.dto.AuthResponse;
-import com.service.webfluxcourse.dto.LoginRequest;
-import com.service.webfluxcourse.dto.SignupRequest;
-import com.service.webfluxcourse.dto.UserDto;
+import com.service.webfluxcourse.dto.*;
 import com.service.webfluxcourse.service.AuthService;
+import com.service.webfluxcourse.service.TotpService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
@@ -25,9 +20,11 @@ import java.util.*;
 public class AuthController {
 
     private final AuthService authService;
+    private  final TotpService  totpService;
 
-    public AuthController(AuthService authService) {
+    public AuthController(AuthService authService, TotpService totpService) {
         this.authService = authService;
+        this.totpService = totpService;
     }
 
     @PostMapping("/auth/signup")
@@ -78,7 +75,7 @@ public class AuthController {
             return Mono.just(ResponseEntity.ok(userInfo));
         }
 
-// cas de sécurité : on ne sait pâs qui c'est
+        // cas de sécurité : on ne sait pâs qui c'est
         return Mono.just(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
     }
 

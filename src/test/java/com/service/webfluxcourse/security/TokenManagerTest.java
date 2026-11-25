@@ -29,7 +29,7 @@ class TokenManagerTest {
         tokenManager = new TokenManager(secretKeyString, accessTokenExpiration, refreshTokenExpiration);
         user = new User(UUID.randomUUID(), "test@example.com", "rttrrytutTYYUUI667",
                 "Dede", roles, true,
-                false, true, Instant.now(), Instant.now());
+                false, true, Instant.now(), Instant.now(),null, false);
     }
 
     @Test

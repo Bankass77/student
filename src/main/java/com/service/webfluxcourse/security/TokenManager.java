@@ -12,13 +12,13 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
-import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.*;
 
 @Component
 public class TokenManager {
 
+    private  static long MFA8PENDING_TIME=300_000;  // 5mn
     private final SecretKey secretKey;
 
     private final long accessTokenExpiration;
@@ -146,6 +146,19 @@ public class TokenManager {
         return extractClaims(token)
                 .map(claims -> "refresh".equals(claims.get("type", String.class)))
                 .orElse(false);
+    }
+
+
+    public String generateTempMFAToken(String email, String userId ) {
+        // expiration courte (5 minutes), claim "mfa_pending": true
+       return Jwts.builder()
+               .subject(email)
+               .claim("userId", userId)
+               .claim("mfa_pending", true)
+               .issuedAt(Date.from(Instant.now()))
+               .expiration(Date.from(Instant.now().plusMillis(MFA8PENDING_TIME)))
+               .signWith(secretKey)
+               .compact();
     }
 
 }

@@ -11,5 +11,5 @@ import java.util.UUID;
 public record User(@Id UUID userId, String email, String password,
                    String username, Set<String> roles, boolean active,
                    boolean locked, boolean enabled,
-                   Instant createdAt, Instant lastLoginAt) {
+                   Instant createdAt, Instant lastLoginAt, String totpSecret, boolean totpEnabled) {
 }
