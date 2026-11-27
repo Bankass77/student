@@ -1,5 +1,6 @@
 package com.service.webfluxcourse.security;
 
+import com.service.webfluxcourse.config.WebFluxCorsConfiguration;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,6 +10,7 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
@@ -46,6 +48,7 @@ public class SecurityConfig {
     public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
 
         return http.
+                cors(Customizer.withDefaults()).
                 csrf(ServerHttpSecurity.CsrfSpec::disable)  // JWT est stateless, pas besoin de CSF
                 .exceptionHandling(exceptionHandling -> exceptionHandling.authenticationEntryPoint(new HttpStatusServerEntryPoint(HttpStatus.UNAUTHORIZED)).accessDeniedHandler(
                         new HttpStatusServerAccessDeniedHandler(HttpStatus.FORBIDDEN)
