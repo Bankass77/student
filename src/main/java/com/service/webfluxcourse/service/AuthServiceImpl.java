@@ -41,14 +41,14 @@ public class AuthServiceImpl implements AuthService {
                         return Mono.error(new UserExistsException("Email already exists"));
                     }
                     String password = BCrypt.hashpw(signupRequest.password(), BCrypt.gensalt());
-                    Set<String> roles = Set.of("ROLE_USER");
+                    String[] roles = new String[]{"ROLE_USER"};
 
                     User newUser = new User(null, signupRequest.email(), password, signupRequest.username(), roles,
                             true, false, true, Instant.now(), null, null, false);
                     return userRepository.save(newUser);
                 }).map(
                 savedUser -> {
-                    String token = tokenManager.generateToken(savedUser.email(), savedUser.userId().toString(), savedUser.roles());
+                    String token = tokenManager.generateToken(savedUser.userId().toString(), savedUser.email(), savedUser.roles());
                     long exp = tokenManager.extractExpiration(token).getTime();
                     return new AuthResponse(savedUser.userId().toString(), savedUser.email(), token, "Bearer", exp);
                 });
@@ -64,7 +64,7 @@ public class AuthServiceImpl implements AuthService {
                     if (!BCrypt.checkpw(loginRequest.password(), user.password())) {
                         throw new InvalidCredentialsException("Invalid email or password");
                     }
-                    String generateToken = tokenManager.generateToken(user.email(), user.userId().toString(), user.roles());
+                    String generateToken = tokenManager.generateToken(user.userId().toString(), user.email(), user.roles());
                     long exp = tokenManager.extractExpiration(generateToken).getTime();
                     String email = tokenManager.extractEmail(generateToken);
                     String userId = tokenManager.extractUserId(generateToken);
@@ -160,7 +160,7 @@ public class AuthServiceImpl implements AuthService {
                     }
 
                     // On emet le token final
-                    String finalToken = tokenManager.generateToken(user.email(), user.userId().toString(), user.roles());
+                    String finalToken = tokenManager.generateToken(user.userId().toString(), user.email(), user.roles());
                     long exp = tokenManager.extractExpiration(finalToken).getTime();
                     return Mono.just(new AuthResponse(userId, email, finalToken, "Bearer", exp));
                 }

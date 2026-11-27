@@ -34,7 +34,7 @@ class SecurityConfigTest {
     void setUp() {
         String password = BCrypt.hashpw("MonPass123!", BCrypt.gensalt());
         String email = "fatoumata@seznam.cz";
-        User user = new User(UUID.randomUUID(), email, password, "Fatoumata", Set.of("ROLE_USER"),
+        User user = new User(UUID.randomUUID(), email, password, "Fatoumata", new String[]{"ROLE_USER"},
                 true, false, true, Instant.now(), null, null, false);
         userRepository.save(user).block();
     }

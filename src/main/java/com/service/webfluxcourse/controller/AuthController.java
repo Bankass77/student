@@ -60,7 +60,7 @@ public class AuthController {
 
         if (principal instanceof Jwt jwt) {
 
-            String userId = jwt.getClaimAsString(Objects.requireNonNull(jwt.getClaimAsString("userId")));
+            String userId = jwt.getClaimAsString("userId") !=null ? jwt.getClaimAsString("userId") : jwt.getSubject();
             String email = jwt.getClaimAsString("sub");
             // Gérer l'absence du claim "roles"
             List<String> rolesFromClaim = jwt.getClaimAsStringList("roles");

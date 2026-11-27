@@ -1,7 +1,6 @@
 package com.service.webfluxcourse.service;
 
 import com.service.webfluxcourse.domain.User;
-import com.service.webfluxcourse.exception.UserExistsException;
 import com.service.webfluxcourse.exception.UserNotFoundException;
 import com.service.webfluxcourse.repository.UserRepository;
 import dev.samstevens.totp.code.CodeVerifier;
@@ -26,7 +25,10 @@ public class TotpService {
 
     private final CodeVerifier verifier;
 
-    public TotpService(UserRepository userRepository, SecretGenerator secretGenerator, QrGenerator qrGenerator, CodeVerifier verifier) {
+    public TotpService(UserRepository userRepository,
+                       SecretGenerator secretGenerator,
+                       QrGenerator qrGenerator,
+                       CodeVerifier verifier) {
         this.userRepository = userRepository;
         this.secretGenerator = secretGenerator;
         this.qrGenerator = qrGenerator;

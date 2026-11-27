@@ -24,6 +24,8 @@ logging:
     io.r2dbc.postgresql.PARAM: DEBUG
     org.springframework.boot.sql.init: DEBUG
     org.pringframework.r2dbc.connection.init: DEBUG
+    org.springframework.security: DEBUG
+    org.springframewordk.security.oauth2.jwt: DEBUG
   # Schema initialization for development
   sql:
     init:

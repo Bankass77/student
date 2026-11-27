@@ -34,7 +34,7 @@ public class TokenManager {
     }
 
     // Generate access token with user details (email + userId)
-    public String generateToken(String userId,String email, Set<String> roles) {
+    public String generateToken(String userId,String email, String[] roles) {
 
         Instant now = Instant.now();
         return Jwts.builder()

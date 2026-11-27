@@ -24,7 +24,7 @@ class TokenManagerTest {
     void setUp() {
         byte[] bytesSecret = new byte[32];
         new SecureRandom().nextBytes(bytesSecret);
-        Set<String> roles = new HashSet<>(Arrays.asList("ROLE_USER", "ROLE_ADMIN", "ROLE_STUDENT"));
+        String[] roles = new String[]{"ROLE_USER", "ROLE_ADMIN", "ROLE_STUDENT"};
         String secretKeyString = Base64.getEncoder().encodeToString(bytesSecret);
         tokenManager = new TokenManager(secretKeyString, accessTokenExpiration, refreshTokenExpiration);
         user = new User(UUID.randomUUID(), "test@example.com", "rttrrytutTYYUUI667",
@@ -108,7 +108,7 @@ class TokenManagerTest {
     void has_one_Authorities_test() {
 
         String jwtGenerated = tokenManager.generateToken(user.email(), user.userId().toString(), user.roles());
-        List<String> authorities = new ArrayList<>(user.roles());
+        List<String> authorities = Arrays.asList(user.roles());
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
         grantedAuthorities.add(new SimpleGrantedAuthority(authorities.getFirst()));
         assertThat(authorities).isNotNull();
